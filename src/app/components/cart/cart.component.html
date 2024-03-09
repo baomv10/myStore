@@ -1,0 +1,116 @@
+@if (shoppingCartService.getShoppingCart().items.length > 0) {
+  <div class="cart-panel">
+    <div class="cart-container">
+      <div>
+        @for (
+          product of shoppingCartService.getShoppingCart().items;
+          track product.id
+        ) {
+          <div class="cart-item">
+            <img [src]="product.url" class="" />
+            <div class="cart-item-details space-y-4">
+              <p class="text-xl">{{ product.name }}</p>
+              <p class="text-lg">${{ product.price }}</p>
+              <p>
+                Amount:
+                <input
+                  type="number"
+                  class="border w-10"
+                  [(ngModel)]="product.quantity"
+                  (change)="this.shoppingCartService.updateQuantity(product)"
+                />
+              </p>
+              <button
+                class="bg-sky-500 text-white rounded-lg hover:bg-sky-700"
+                (click)="this.shoppingCartService.removeProduct(product.id)"
+              >
+                Remove
+              </button>
+            </div>
+          </div>
+        }
+        <p class="text-3xl">
+          Total: ${{
+            shoppingCartService.getShoppingCart().totalCost.toFixed(2)
+          }}
+        </p>
+      </div>
+      <div class="flex flex-col space-y-2 ml-20" [formGroup]="formGroup">
+        <label>Full name</label>
+        <input
+          type="text"
+          formControlName="fullName"
+          name="fullName"
+          class="border rounded"
+          placeholder="(minimum 3 characters)"
+          minlength="3"
+        />
+        @if (
+          formGroup.controls.fullName.touched &&
+          formGroup.controls.fullName.hasError('required')
+        ) {
+          <p class="text-sm text-red-500">Full name is required</p>
+        }
+
+        @if (
+          formGroup.controls.fullName.touched &&
+          formGroup.controls.fullName.hasError('minlength')
+        ) {
+          <p class="text-sm text-red-500">Minimum 3 characters</p>
+        }
+        <label>Address</label>
+        <input
+          type="text"
+          formControlName="address"
+          name="address"
+          class="border rounded"
+          placeholder="(minimum 6 characters)"
+          minlength="6"
+        />
+        @if (
+          formGroup.controls.address.touched &&
+          formGroup.controls.address.hasError('required')
+        ) {
+          <p class="text-sm text-red-500">Address is required</p>
+        }
+        @if (
+          formGroup.controls.address.touched &&
+          formGroup.controls.address.hasError('minlength')
+        ) {
+          <p class="text-sm text-red-500">Minimum 6 characters</p>
+        }
+        <label>Credit card number</label>
+        <input
+          type="text"
+          formControlName="creditCardNumber"
+          name="address"
+          maxlength="16"
+          class="border rounded"
+          placeholder="(16-digit number)"
+        />
+        @if (
+          formGroup.controls.creditCardNumber.touched &&
+          formGroup.controls.creditCardNumber.hasError('required')
+        ) {
+          <p class="text-sm text-red-500">Credit card number is required</p>
+        }
+
+        @if (
+          formGroup.controls.creditCardNumber.touched &&
+          formGroup.controls.creditCardNumber.hasError('minlength')
+        ) {
+          <p class="text-sm text-red-500">16 digit number</p>
+        }
+        <p>We'll never share your payment details with anyone else.</p>
+        <button
+          class="bg-sky-500 text-white rounded-lg hover:bg-sky-700 p-2"
+          (click)="placeOrder()"
+        >
+          Submit
+        </button>
+      </div>
+    </div>
+  </div>
+} @else {
+  <p class="empty-cart-message">Shopping cart is empty</p>
+}

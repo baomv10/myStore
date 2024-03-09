@@ -1,0 +1,10 @@
+<div class="header">
+  <p class="text-4xl">MyStore</p>
+  <a routerLink="/products" routerLinkActive="router-link-active"
+    >Product List</a
+  >
+  |
+  <a routerLink="/cart" routerLinkActive="router-link-active"
+    >Cart ({{ shoppingCartService.getShoppingCart().items.length || 0 }})</a
+  >
+</div>

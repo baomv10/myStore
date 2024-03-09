@@ -1,0 +1,18 @@
+<div class="product-container space-y-4">
+  <a [routerLink]="['/products', product.id]">
+    <img [src]="product.url" class="product-image" />
+  </a>
+  <p class="text-3xl">{{ product.name }}</p>
+  <p class="text-2xl">${{ product.price }}</p>
+  <select class="border select-input" [(ngModel)]="quantity">
+    @for (i of lstQuantity; track i) {
+      <option [value]="i">{{ i }}</option>
+    }
+  </select>
+  <button
+    class="bg-sky-500 text-white p-2 rounded-lg hover:bg-sky-700"
+    (click)="addToCart(product)"
+  >
+    Add to cart
+  </button>
+</div>

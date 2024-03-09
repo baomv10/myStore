@@ -1,8 +1,8 @@
 import { RouterModule } from '@angular/router';
-import { Component, Input, inject } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Product } from '../../models/product';
-import { ShoppingCartService } from '../../services/shopping-cart.service';
 import { FormsModule } from '@angular/forms';
+import { ProductCart } from '../../models/cart';
 
 @Component({
   selector: 'app-product-item',
@@ -13,13 +13,13 @@ import { FormsModule } from '@angular/forms';
 })
 export class ProductItemComponent {
   @Input({ required: true }) product!: Product;
+  @Output() addProductToCart = new EventEmitter<ProductCart>();
 
   quantity = 1;
   lstQuantity = Array.from({ length: 10 }, (_, i) => i + 1);
 
-  shoppingCartService = inject(ShoppingCartService);
   addToCart(product: Product): void {
-    this.shoppingCartService.addToCart({ ...product, quantity: this.quantity });
-    alert('Added to cart');
+    const newProduct = { ...product, quantity: this.quantity };
+    this.addProductToCart.emit(newProduct)
   }
 }

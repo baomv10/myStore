@@ -13,7 +13,6 @@ export class ConfirmationComponent implements OnInit, OnDestroy {
   paymentService = inject(PaymentService);
   router = inject(Router);
   ngOnInit(): void {
-    console.log(this.paymentService.getPaymentInfo());
     if (!this.paymentService.getPaymentInfo()) {
       this.router.navigateByUrl('/products');
     }

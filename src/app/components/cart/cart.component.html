@@ -16,13 +16,15 @@
                 <input
                   type="number"
                   class="border w-10"
+                  min="1"
                   [(ngModel)]="product.quantity"
-                  (change)="this.shoppingCartService.updateQuantity(product)"
+                  (ngModelChange)="onQuantityChange(product)"
+                  (blur)="onQuantityBlur(product)"
                 />
               </p>
               <button
                 class="bg-sky-500 text-white rounded-lg hover:bg-sky-700"
-                (click)="this.shoppingCartService.removeProduct(product.id)"
+                (click)="removeItem(product.id)"
               >
                 Remove
               </button>
@@ -100,6 +102,12 @@
           formGroup.controls.creditCardNumber.hasError('minlength')
         ) {
           <p class="text-sm text-red-500">16 digit number</p>
+        }
+        @if (
+          formGroup.controls.creditCardNumber.touched &&
+          formGroup.controls.creditCardNumber.hasError('pattern')
+        ) {
+          <p class="text-sm text-red-500">Enter only number</p>
         }
         <p>We'll never share your payment details with anyone else.</p>
         <button
